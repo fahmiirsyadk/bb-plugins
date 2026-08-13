@@ -1,8 +1,12 @@
 # Composer Beam
 
+<img width="100%" height="auto" alt="beam composer" src="https://github.com/user-attachments/assets/71f2eef7-14b8-4ec2-ac5d-591cd4ff650d" />
+
+> based on [beam.jakubantalik.com](beam.jakubantalik.com)
+
 Adds the animated beam around BB prompt composers while they are running or
 submitting. The plugin is frontend-only and registers a bare banner through
-`app.composer.customize`; it does not modify BB core or add server capabilities.
+`app.composer.customize`;
 
 The banner uses the public composer view for run state, finds the containing
 host prompt form through the composer slot DOM, and owns only its namespaced
