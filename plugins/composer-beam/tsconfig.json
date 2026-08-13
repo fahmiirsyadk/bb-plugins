@@ -24,10 +24,14 @@
     }
   },
   "include": [
-    "server.ts",
-    "shared.ts",
     "app.tsx",
+    "beam.tsx",
+    "beam-state.ts",
+    "server.ts",
     "css.d.ts",
+    "vitest.config.ts",
+    "*.test.ts",
+    "*.test.tsx",
     "types"
   ]
 }

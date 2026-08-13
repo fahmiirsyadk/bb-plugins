@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "noEmit": true,
+    "skipLibCheck": false,
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@bb/plugin-sdk": [
+        "./types/bb-plugin-sdk.d.ts"
+      ],
+      "@bb/plugin-sdk/app": [
+        "./types/bb-plugin-sdk-app.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "server.ts",
+    "app.tsx",
+    "dom-bridge.ts",
+    "components",
+    "css.d.ts",
+    "types"
+  ]
+}

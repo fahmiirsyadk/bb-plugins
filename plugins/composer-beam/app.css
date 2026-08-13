@@ -1,0 +1,633 @@
+/*
+ * Composer Beam is a standalone, namespaced port of BB's current beam.
+ * The vivid BorderBeam palette and neutral white bloom are intrinsic to the
+ * visual preset.
+ */
+@property --bb-composer-beam-x-prompt {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+@property --bb-composer-beam-w-prompt {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+@property --bb-composer-beam-h-prompt {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+@property --bb-composer-beam-spike-prompt {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+@property --bb-composer-beam-spike2-prompt {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+@property --bb-composer-beam-edge-prompt {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+@property --bb-composer-beam-opacity-prompt {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+.bb-composer-beam-form {
+  --bb-composer-beam-radius: 12px;
+  --bb-composer-beam-inner-radius: 11px;
+}
+
+.bb-composer-beam-form[data-promptbox-voice-active] {
+  --bb-composer-beam-radius: 24px;
+  --bb-composer-beam-inner-radius: 23px;
+}
+
+/*
+ * BorderBeam 1.4.0 line preset (colorful, dark defaults), ported from
+ * https://github.com/Jakubantalik/border-beam under its MIT license.
+ */
+.bb-composer-beam-form {
+  position: relative;
+  border-radius: var(--bb-composer-beam-radius);
+  overflow: hidden;
+}
+
+/* The upstream wrapper clips its children; the composer's menu is a child
+ * intentionally positioned outside the form, so release only that case. */
+.bb-composer-beam-form[data-promptbox-typeahead-open] {
+  overflow: visible;
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-active] {
+  animation:
+    bb-composer-beam-travel-prompt 3.1s linear infinite,
+    bb-composer-beam-edge-fade-prompt 3.1s linear infinite,
+    bb-composer-beam-breathe-prompt 4s ease-in-out infinite,
+    bb-composer-beam-spike-prompt 4.1s ease-in-out infinite,
+    bb-composer-beam-spike2-prompt 5.3s ease-in-out infinite,
+    bb-composer-beam-fade-in-prompt 0.6s ease forwards;
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-fading] {
+  animation:
+    bb-composer-beam-travel-prompt 3.1s linear infinite,
+    bb-composer-beam-edge-fade-prompt 3.1s linear infinite,
+    bb-composer-beam-breathe-prompt 4s ease-in-out infinite,
+    bb-composer-beam-spike-prompt 4.1s ease-in-out infinite,
+    bb-composer-beam-spike2-prompt 5.3s ease-in-out infinite,
+    bb-composer-beam-fade-out-prompt 0.5s ease forwards;
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-active]::after,
+.bb-composer-beam-form[data-bb-composer-beam-fading]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--bb-composer-beam-inner-radius);
+  padding: 1px;
+  clip-path: inset(0 round var(--bb-composer-beam-radius));
+  background:
+    radial-gradient(
+      ellipse calc(24px * var(--bb-composer-beam-w-prompt))
+        calc(28px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        calc(100% + 2px),
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(255, 255, 255, 0.12) 30%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse calc(36px * var(--bb-composer-beam-w-prompt))
+        calc(36px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        calc(100% + 2px),
+      rgb(255, 50, 100),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(30px * var(--bb-composer-beam-w-prompt))
+        calc(32px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 39px) calc(100%),
+      rgb(40, 180, 220),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(33px * var(--bb-composer-beam-w-prompt))
+        calc(28px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 36px) calc(100% + 2px),
+      rgb(50, 200, 80),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(29px * var(--bb-composer-beam-w-prompt))
+        calc(34px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 54px) calc(100%),
+      rgb(180, 40, 240),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(27px * var(--bb-composer-beam-w-prompt))
+        calc(30px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 51px) calc(100% - 1px),
+      rgb(255, 160, 30),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(36px * var(--bb-composer-beam-w-prompt))
+        calc(24px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 21px) calc(100% + 1px),
+      rgb(100, 70, 255),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(30px * var(--bb-composer-beam-w-prompt))
+        calc(22px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 21px) calc(100%),
+      rgb(40, 140, 255),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(25px * var(--bb-composer-beam-w-prompt))
+        calc(28px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 66px) calc(100% + 1px),
+      rgb(240, 50, 180),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(23px * var(--bb-composer-beam-w-prompt))
+        calc(30px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 66px) calc(100% - 1px),
+      rgb(30, 185, 170),
+      transparent
+    );
+  -webkit-mask:
+    radial-gradient(
+      ellipse calc(78px * var(--bb-composer-beam-w-prompt))
+        calc(60px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        100%,
+      white 0%,
+      rgba(255, 255, 255, 0.5) 45%,
+      transparent 100%
+    ),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    radial-gradient(
+      ellipse calc(78px * var(--bb-composer-beam-w-prompt))
+        calc(60px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        100%,
+      white 0%,
+      rgba(255, 255, 255, 0.5) 45%,
+      transparent 100%
+    ),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: intersect, exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: calc(
+    var(--bb-composer-beam-opacity-prompt) * var(--bb-composer-beam-edge-prompt) * 1.14 *
+      var(--bb-composer-beam-stroke-opacity, 1) * var(--bb-composer-beam-strength, 1)
+  );
+  animation: bb-composer-beam-hue-shift-prompt 12s ease-in-out infinite;
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-active]::before,
+.bb-composer-beam-form[data-bb-composer-beam-fading]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--bb-composer-beam-radius);
+  background:
+    radial-gradient(
+      ellipse calc(33px * var(--bb-composer-beam-w-prompt))
+        calc(30px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        calc(100%),
+      rgba(255, 50, 100, 0.48),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(24px * var(--bb-composer-beam-w-prompt))
+        calc(26px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 39px) calc(100% - 3px),
+      rgba(40, 180, 220, 0.42),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(27px * var(--bb-composer-beam-w-prompt))
+        calc(24px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 36px) calc(100%),
+      rgba(50, 200, 80, 0.48),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(23px * var(--bb-composer-beam-w-prompt))
+        calc(28px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 54px) calc(100% - 2px),
+      rgba(180, 40, 240, 0.42),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(24px * var(--bb-composer-beam-w-prompt))
+        calc(24px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 51px) calc(100% - 1px),
+      rgba(255, 160, 30, 0.5),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(30px * var(--bb-composer-beam-w-prompt))
+        calc(20px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 21px) calc(100%),
+      rgba(100, 70, 255, 0.45),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(25px * var(--bb-composer-beam-w-prompt))
+        calc(18px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 21px) calc(100% - 2px),
+      rgba(40, 140, 255, 0.4),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(21px * var(--bb-composer-beam-w-prompt))
+        calc(24px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% + 66px) calc(100%),
+      rgba(240, 50, 180, 0.45),
+      transparent
+    ),
+    radial-gradient(
+      ellipse calc(18px * var(--bb-composer-beam-w-prompt))
+        calc(26px * var(--bb-composer-beam-h-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100% - 66px) calc(100% - 1px),
+      rgba(30, 185, 170, 0.52),
+      transparent
+    );
+  box-shadow: inset 0 0 9px 1px rgba(255, 255, 255, 0.1);
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse calc(78px * var(--bb-composer-beam-w-prompt))
+        calc(60px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        100%,
+      white 0%,
+      rgba(255, 255, 255, 0.5) 45%,
+      transparent 100%
+    ),
+    linear-gradient(
+      white,
+      transparent 28px,
+      transparent calc(100% - 28px),
+      white
+    ),
+    linear-gradient(
+      to right,
+      white,
+      transparent 28px,
+      transparent calc(100% - 28px),
+      white
+    );
+  -webkit-mask-composite: source-in, source-over;
+  mask-image:
+    radial-gradient(
+      ellipse calc(78px * var(--bb-composer-beam-w-prompt))
+        calc(60px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        100%,
+      white 0%,
+      rgba(255, 255, 255, 0.5) 45%,
+      transparent 100%
+    ),
+    linear-gradient(
+      white,
+      transparent 28px,
+      transparent calc(100% - 28px),
+      white
+    ),
+    linear-gradient(
+      to right,
+      white,
+      transparent 28px,
+      transparent calc(100% - 28px),
+      white
+    );
+  mask-composite: intersect, add;
+  pointer-events: none;
+  z-index: 1;
+  opacity: calc(
+    var(--bb-composer-beam-opacity-prompt) * var(--bb-composer-beam-edge-prompt) * 0.7 *
+      var(--bb-composer-beam-inner-opacity, 1) * var(--bb-composer-beam-strength, 1)
+  );
+  clip-path: inset(0 round var(--bb-composer-beam-radius));
+  animation: bb-composer-beam-hue-shift-prompt 12s ease-in-out infinite;
+}
+
+.bb-composer-beam-form [data-bb-composer-beam-bloom] {
+  display: none;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--bb-composer-beam-inner-radius);
+  clip-path: inset(0 round var(--bb-composer-beam-radius));
+  padding: 0;
+  -webkit-mask: radial-gradient(
+    ellipse calc(84px * var(--bb-composer-beam-w-prompt))
+      calc(110px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+      100%,
+    white 0%,
+    rgba(255, 255, 255, 0.5) 35%,
+    transparent 100%
+  );
+  -webkit-mask-composite: source-over;
+  mask: radial-gradient(
+    ellipse calc(84px * var(--bb-composer-beam-w-prompt))
+      calc(110px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+      100%,
+    white 0%,
+    rgba(255, 255, 255, 0.5) 35%,
+    transparent 100%
+  );
+  mask-composite: add;
+  background:
+    radial-gradient(
+      ellipse calc(0.8px * var(--bb-composer-beam-spike-prompt))
+        calc(92px * var(--bb-composer-beam-h-prompt)) at 8% calc(100% - 2px),
+      rgb(255, 60, 80),
+      rgb(255, 60, 80) 30%,
+      transparent 88%
+    ),
+    radial-gradient(
+      ellipse calc(10px * var(--bb-composer-beam-spike2-prompt))
+        calc(35px * var(--bb-composer-beam-h-prompt)) at 22% calc(100% - 4px),
+      rgba(40, 190, 180, 0.98),
+      rgba(40, 190, 180, 0.49) 50%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse calc(2px * (2 - var(--bb-composer-beam-spike-prompt)))
+        calc(72px * var(--bb-composer-beam-h-prompt)) at 36% calc(100% - 3px),
+      rgb(100, 70, 255),
+      rgba(100, 70, 255, 1) 40%,
+      transparent 90%
+    ),
+    radial-gradient(
+      ellipse calc(14px * var(--bb-composer-beam-spike2-prompt))
+        calc(28px * var(--bb-composer-beam-h-prompt)) at 50% calc(100% - 2px),
+      rgba(255, 170, 40, 0.59),
+      rgba(255, 170, 40, 0.29) 55%,
+      transparent 96%
+    ),
+    radial-gradient(
+      ellipse calc(1.2px * (2 - var(--bb-composer-beam-spike2-prompt)))
+        calc(85px * var(--bb-composer-beam-h-prompt)) at 64% calc(100% - 4px),
+      rgb(50, 200, 100),
+      rgba(50, 200, 100, 1) 35%,
+      transparent 89%
+    ),
+    radial-gradient(
+      ellipse calc(7px * var(--bb-composer-beam-spike-prompt))
+        calc(45px * var(--bb-composer-beam-h-prompt)) at 78% calc(100% - 2px),
+      rgba(200, 50, 240, 0.91),
+      rgba(200, 50, 240, 0.45) 48%,
+      transparent 94%
+    ),
+    radial-gradient(
+      ellipse calc(0.6px * (2 - var(--bb-composer-beam-spike-prompt)))
+        calc(60px * var(--bb-composer-beam-h-prompt)) at 92% calc(100% - 3px),
+      rgb(40, 140, 255),
+      rgba(40, 140, 255, 1) 42%,
+      transparent 91%
+    ),
+    radial-gradient(
+      ellipse calc(21px * var(--bb-composer-beam-spike-prompt))
+        calc(15px * var(--bb-composer-beam-spike2-prompt)) at
+        calc(var(--bb-composer-beam-x-prompt) * 100%) calc(100% + 1px),
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse calc(42px * var(--bb-composer-beam-w-prompt))
+        calc(40px * var(--bb-composer-beam-h-prompt)) at calc(var(--bb-composer-beam-x-prompt) * 100%)
+        100%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.12) 25%,
+      rgba(255, 255, 255, 0.03) 55%,
+      transparent 80%
+    );
+
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-active] [data-bb-composer-beam-bloom],
+.bb-composer-beam-form[data-bb-composer-beam-fading] [data-bb-composer-beam-bloom] {
+  display: block;
+  opacity: calc(
+    var(--bb-composer-beam-opacity-prompt) * var(--bb-composer-beam-edge-prompt) * 0.8 *
+      var(--bb-composer-beam-bloom-opacity, 1) * var(--bb-composer-beam-strength, 1)
+  );
+  animation: bb-composer-beam-hue-shift-bloom-prompt 8s ease-in-out infinite;
+}
+
+@keyframes bb-composer-beam-travel-prompt {
+  0% {
+    --bb-composer-beam-x-prompt: 0.06;
+    --bb-composer-beam-w-prompt: 0.5;
+  }
+  10% {
+    --bb-composer-beam-x-prompt: 0.15;
+    --bb-composer-beam-w-prompt: 0.8;
+  }
+  20% {
+    --bb-composer-beam-x-prompt: 0.25;
+    --bb-composer-beam-w-prompt: 1.1;
+  }
+  30% {
+    --bb-composer-beam-x-prompt: 0.35;
+    --bb-composer-beam-w-prompt: 1.3;
+  }
+  40% {
+    --bb-composer-beam-x-prompt: 0.44;
+    --bb-composer-beam-w-prompt: 1.45;
+  }
+  50% {
+    --bb-composer-beam-x-prompt: 0.5;
+    --bb-composer-beam-w-prompt: 1.5;
+  }
+  60% {
+    --bb-composer-beam-x-prompt: 0.56;
+    --bb-composer-beam-w-prompt: 1.45;
+  }
+  70% {
+    --bb-composer-beam-x-prompt: 0.65;
+    --bb-composer-beam-w-prompt: 1.3;
+  }
+  80% {
+    --bb-composer-beam-x-prompt: 0.75;
+    --bb-composer-beam-w-prompt: 1.1;
+  }
+  90% {
+    --bb-composer-beam-x-prompt: 0.85;
+    --bb-composer-beam-w-prompt: 0.8;
+  }
+  100% {
+    --bb-composer-beam-x-prompt: 0.94;
+    --bb-composer-beam-w-prompt: 0.5;
+  }
+}
+
+@keyframes bb-composer-beam-edge-fade-prompt {
+  0% {
+    --bb-composer-beam-edge-prompt: 0;
+  }
+  12.5% {
+    --bb-composer-beam-edge-prompt: 0;
+  }
+  32.5% {
+    --bb-composer-beam-edge-prompt: 1;
+  }
+  67.5% {
+    --bb-composer-beam-edge-prompt: 1;
+  }
+  87.5% {
+    --bb-composer-beam-edge-prompt: 0;
+  }
+  100% {
+    --bb-composer-beam-edge-prompt: 0;
+  }
+}
+
+@keyframes bb-composer-beam-breathe-prompt {
+  0%,
+  100% {
+    --bb-composer-beam-h-prompt: 0.8;
+  }
+  25% {
+    --bb-composer-beam-h-prompt: 1.25;
+  }
+  55% {
+    --bb-composer-beam-h-prompt: 0.85;
+  }
+  80% {
+    --bb-composer-beam-h-prompt: 1.3;
+  }
+}
+
+@keyframes bb-composer-beam-spike-prompt {
+  0% {
+    --bb-composer-beam-spike-prompt: 0.8;
+  }
+  25% {
+    --bb-composer-beam-spike-prompt: 1.3;
+  }
+  50% {
+    --bb-composer-beam-spike-prompt: 0.9;
+  }
+  75% {
+    --bb-composer-beam-spike-prompt: 1.4;
+  }
+  100% {
+    --bb-composer-beam-spike-prompt: 0.8;
+  }
+}
+
+@keyframes bb-composer-beam-spike2-prompt {
+  0% {
+    --bb-composer-beam-spike2-prompt: 1.2;
+  }
+  25% {
+    --bb-composer-beam-spike2-prompt: 0.7;
+  }
+  50% {
+    --bb-composer-beam-spike2-prompt: 1.4;
+  }
+  75% {
+    --bb-composer-beam-spike2-prompt: 0.8;
+  }
+  100% {
+    --bb-composer-beam-spike2-prompt: 1.2;
+  }
+}
+
+@keyframes bb-composer-beam-fade-in-prompt {
+  to {
+    --bb-composer-beam-opacity-prompt: 1;
+  }
+}
+
+@keyframes bb-composer-beam-fade-out-prompt {
+  from {
+    --bb-composer-beam-opacity-prompt: 1;
+  }
+  to {
+    --bb-composer-beam-opacity-prompt: 0;
+  }
+}
+
+@keyframes bb-composer-beam-hue-shift-prompt {
+  0% {
+    filter: hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) - 13deg))
+      brightness(1.3) saturate(1.2);
+  }
+  50% {
+    filter: hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) + 13deg))
+      brightness(1.3) saturate(1.2);
+  }
+  100% {
+    filter: hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) - 13deg))
+      brightness(1.3) saturate(1.2);
+  }
+}
+
+@keyframes bb-composer-beam-hue-shift-bloom-prompt {
+  0% {
+    filter: blur(8px) hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) - 23deg))
+      brightness(1.3) saturate(1.2);
+  }
+  50% {
+    filter: blur(8px) hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) + 23deg))
+      brightness(1.3) saturate(1.2);
+  }
+  100% {
+    filter: blur(8px) hue-rotate(calc(var(--bb-composer-beam-hue-base, 0deg) - 23deg))
+      brightness(1.3) saturate(1.2);
+  }
+}
+
+.bb-composer-beam-form[data-bb-composer-beam-paused],
+.bb-composer-beam-form[data-bb-composer-beam-paused]::after,
+.bb-composer-beam-form[data-bb-composer-beam-paused]::before,
+.bb-composer-beam-form[data-bb-composer-beam-paused] [data-bb-composer-beam-bloom] {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bb-composer-beam-form[data-bb-composer-beam-active] {
+    animation: bb-composer-beam-fade-in-prompt 0.6s ease forwards;
+  }
+
+  .bb-composer-beam-form[data-bb-composer-beam-fading] {
+    animation: bb-composer-beam-fade-out-prompt 0.5s ease forwards;
+  }
+
+  .bb-composer-beam-form::after,
+  .bb-composer-beam-form::before,
+  .bb-composer-beam-form [data-bb-composer-beam-bloom] {
+    animation: none !important;
+  }
+}
+
+.bb-composer-beam-anchor {
+  display: none;
+}

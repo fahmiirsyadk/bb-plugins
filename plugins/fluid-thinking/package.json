@@ -1,0 +1,52 @@
+{
+  "name": "@fahmiirsyadk/bb-plugin-fluid-thinking",
+  "version": "0.1.0",
+  "description": "A cleanup-safe Fluid Functionalism-inspired indicator for BB timeline turns.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/fahmiirsyadk/bb-plugins/tree/main/plugins/fluid-thinking#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fahmiirsyadk/bb-plugins.git",
+    "directory": "plugins/fluid-thinking"
+  },
+  "engines": {
+    "bb": ">=0.37",
+    "bbPluginSdk": "^0.4.1"
+  },
+  "bb": {
+    "name": "Fluid Thinking",
+    "description": "A cleanup-safe Fluid Functionalism-inspired indicator for BB timeline turns.",
+    "branding": {
+      "icon": "Sparkles"
+    },
+    "server": "./server.ts",
+    "app": "./app.tsx"
+  },
+  "keywords": [
+    "bb",
+    "bb-plugin",
+    "thinking",
+    "timeline",
+    "fluid-functionalism"
+  ],
+  "scripts": {
+    "build": "bb plugin build .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "framer-motion": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "bb-app": "0.37.0",
+    "jsdom": "^29.0.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^4.1.1"
+  }
+}

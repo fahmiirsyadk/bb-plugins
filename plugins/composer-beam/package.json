@@ -1,0 +1,50 @@
+{
+  "name": "@fahmiirsyadk/bb-plugin-composer-beam",
+  "version": "0.1.0",
+  "description": "Restore BB's animated composer beam as a standalone composer customization.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/fahmiirsyadk/bb-plugins/tree/main/plugins/composer-beam#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fahmiirsyadk/bb-plugins.git",
+    "directory": "plugins/composer-beam"
+  },
+  "engines": {
+    "bb": ">=0.37",
+    "bbPluginSdk": "^0.4.1"
+  },
+  "bb": {
+    "name": "Composer Beam",
+    "description": "Adds the animated beam around active BB composers.",
+    "branding": {
+      "icon": "Sparkles"
+    },
+    "server": "./server.ts",
+    "app": "./app.tsx"
+  },
+  "keywords": [
+    "bb",
+    "bb-plugin",
+    "composer",
+    "beam",
+    "animation"
+  ],
+  "scripts": {
+    "build": "bb plugin build .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "bb-app": "0.37.0",
+    "jsdom": "^29.0.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^4.1.1"
+  }
+}

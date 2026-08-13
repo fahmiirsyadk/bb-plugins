@@ -6,7 +6,8 @@ Personal plugins for [bb](https://github.com/get-bb/bb), kept in one repository.
 
 | Plugin | Description |
 | --- | --- |
-| [Browser](plugins/browser/) | Pick rendered BB UI elements and send structured DOM context to an agent. |
+| [Composer Beam](plugins/composer-beam/) | Restore the animated beam around active BB composers. |
+| [Fluid Thinking](plugins/fluid-thinking/) | Show static/cycling Fluid status text and animate the glyph beside BB's active activity grouping. |
 
 ## Install from source
 
@@ -15,18 +16,20 @@ git clone https://github.com/fahmiirsyadk/bb-plugins.git
 cd bb-plugins
 npm install
 npm run build
-bb plugin install ./plugins/browser
+# Optional composer visual:
+bb plugin install ./plugins/composer-beam
+# Optional timeline visual replacement:
+bb plugin install ./plugins/fluid-thinking
 ```
 
 BB reads each nested plugin from its local directory, so clone the repository
-before installing. A repository-root Git install cannot select
-`plugins/browser` directly.
+before installing.
 
 ## Develop
 
 ```sh
 npm run typecheck
-bb plugin dev plugins/browser
+bb plugin dev plugins/composer-beam
 ```
 
 Inspired by the monorepo structure of

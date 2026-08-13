@@ -1,0 +1,83 @@
+/* Only BB's separate Working/Thinking indicator content is hidden. Native
+ * timeline rows, tool calls, summaries, and disclosure stay untouched. */
+.fluid-thinking-native-hidden {
+  display: none !important;
+}
+
+.fluid-thinking-mount {
+  display: block;
+  min-width: 0;
+}
+
+.fluid-thinking-group-icon-mount {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.fluid-thinking-group-icon-mount .fluid-thinking-indicator {
+  width: 1rem;
+  min-height: 1rem;
+  gap: 0;
+  padding: 0;
+}
+
+.fluid-thinking-group-icon-mount .fluid-thinking-indicator__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fluid-thinking-indicator {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 1.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  /* BB's native indicator host already supplies px-2. */
+  padding: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.fluid-thinking-indicator__icon {
+  flex: 0 0 auto;
+}
+
+.fluid-thinking-indicator__word {
+  display: inline-grid;
+  overflow: hidden;
+}
+
+.fluid-thinking-indicator__word-measure,
+.fluid-thinking-indicator__word-live {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.fluid-thinking-indicator__word-measure {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.fluid-thinking-indicator__word-live {
+  white-space: nowrap;
+}
+
+.fluid-thinking-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
