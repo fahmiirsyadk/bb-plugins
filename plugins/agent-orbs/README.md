@@ -1,6 +1,15 @@
-# Agent Orbs
+# Agent Orbs (child thread avatar)
 
-Agent Orbs gives BB child threads a stable identity: a compact [Oreo avatar](https://github.com/BIAsia/oreo-design-avatar) and a friendly agent codename. It is a frontend-only BB plugin; it does not create, rename, or control threads.
+Agent Orbs gives BB child threads a stable identity: a compact [Oreo avatar](https://github.com/BIAsia/oreo-design-avatar) and a friendly agent codename.
+
+## Screenshots
+
+<img width="1599" height="841" alt="image" src="https://github.com/user-attachments/assets/346f7803-976e-4dea-a7fa-2ae4faf39281" />
+<div style="display: flex;">
+  <img width="50%" height="auto" alt="Screenshot_20260813_131324" src="https://github.com/user-attachments/assets/c4437741-f1fb-498c-94e7-021f71e4604c" />
+  <img width="49%" height="auto" alt="image" src="https://github.com/user-attachments/assets/527a105e-3a02-451b-9354-8f4656f11cb9" />
+</div>
+
 
 ## What it changes
 
