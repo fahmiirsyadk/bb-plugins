@@ -1,5 +1,8 @@
 # Fluid Thinking plugin
 
+<img width="full" height="auto" alt="thinking" src="https://github.com/user-attachments/assets/f24f1deb-ee44-4ab6-a529-a2eba57c4f2d" />
+
+
 Fluid Thinking replaces only BB's visible `Thinking...` / `Working...`
 indicator with the morphing
 [ThinkingIndicator](https://www.fluidfunctionalism.com/docs/thinking-indicator).
