@@ -1,0 +1,118 @@
+/*
+ * The script only owns elements carrying the data-bb-agent-orb attribute.
+ * These selectors intentionally avoid depending on BB's utility classes.
+ */
+[data-bb-agent-orb-mount] {
+  display: inline-flex;
+  width: auto;
+  min-width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  vertical-align: middle;
+}
+
+[data-bb-agent-orb-avatar] {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  animation: bb-agent-orb-breathe var(--bb-agent-orb-duration, 4800ms)
+    ease-in-out var(--bb-agent-orb-delay, 0ms) infinite;
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+[data-bb-agent-orb-avatar] + [data-bb-agent-orb-avatar] {
+  margin-left: -0.45rem;
+}
+
+[data-bb-agent-orb-avatar] > svg,
+[data-bb-agent-orb-avatar] > span,
+[data-bb-agent-orb-avatar] > span > svg {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 0 !important;
+}
+
+@keyframes bb-agent-orb-breathe {
+  0%,
+  100% {
+    filter: saturate(0.92) brightness(0.98);
+    transform: translate3d(0, 0, 0) rotate(calc(var(--bb-agent-orb-tilt, 1deg) * -1))
+      scale(0.94);
+  }
+
+  50% {
+    filter: saturate(1.16) brightness(1.08);
+    transform: translate3d(0, calc(var(--bb-agent-orb-lift, 1px) * -1), 0)
+      rotate(var(--bb-agent-orb-tilt, 1deg)) scale(1.06);
+  }
+}
+
+[data-bb-agent-orb-name] {
+  display: inline-block;
+  max-width: 8rem;
+  flex: 0 1 auto;
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-bb-agent-orb-name][data-bb-agent-orb-surface="child-list"] {
+  display: none;
+}
+
+[data-bb-agent-orb-name][data-bb-agent-orb-surface="parent"],
+[data-bb-agent-orb-name][data-bb-agent-orb-surface="sidebar"] {
+  display: inline-block;
+  max-width: 4.5rem;
+  flex: 0 1 auto;
+}
+
+/* Keep sidebar rows calm and compact; the banner and expanded child list
+ * retain their animated avatars and normal host spacing. */
+.bb-sidebar-hover-actions-row:has(
+    [data-bb-agent-orb-surface="sidebar"]
+  ) {
+  gap: 0.25rem !important;
+}
+
+.bb-sidebar-hover-actions-row:has(
+    [data-bb-agent-orb-surface="sidebar"]
+  )
+  > span:first-of-type {
+  gap: 0.25rem !important;
+}
+
+.bb-sidebar-hover-actions-row:has(
+    [data-bb-agent-orb-surface="sidebar"]
+  )
+  > span:last-of-type {
+  gap: 0 !important;
+}
+
+[data-bb-agent-orb-mount][data-bb-agent-orb-surface="sidebar"]
+  [data-bb-agent-orb-avatar] {
+  animation: none;
+  will-change: auto;
+}
+
+[data-bb-agent-orb-native-hidden],
+[data-bb-agent-orb-prefix-hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bb-agent-orb-avatar] {
+    animation: none;
+    will-change: auto;
+  }
+}

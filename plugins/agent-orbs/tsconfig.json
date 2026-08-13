@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "noEmit": true,
+    "skipLibCheck": false,
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@bb/plugin-sdk": [
+        "./types/bb-plugin-sdk.d.ts"
+      ],
+      "@bb/plugin-sdk/app": [
+        "./types/bb-plugin-sdk-app.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "app.tsx",
+    "agent-identity.ts",
+    "agent-orbs.tsx",
+    "server.ts",
+    "app.css",
+    "css.d.ts",
+    "vitest.config.ts",
+    "*.test.ts",
+    "*.test.tsx",
+    "types"
+  ]
+}
