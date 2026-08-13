@@ -360,7 +360,7 @@ function mountTimelineIndicator(signal: AbortSignal): () => void {
     childList: true,
     characterData: true,
     attributes: true,
-    attributeFilter: ["aria-busy", "class", "data-state"],
+    attributeFilter: ["aria-busy", "class"],
   });
 
   const dispose = () => {

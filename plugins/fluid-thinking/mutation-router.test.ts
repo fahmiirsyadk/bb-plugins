@@ -20,7 +20,7 @@ async function recordMutation(mutate: () => void): Promise<MutationRecord> {
       childList: true,
       characterData: true,
       attributes: true,
-      attributeFilter: ["aria-busy", "class", "data-state"],
+      attributeFilter: ["aria-busy", "class"],
     });
     mutate();
   });
@@ -73,6 +73,37 @@ describe("routeTimelineMutation", () => {
     const mutation = await recordMutation(() => {
       timeline.workRow.setAttribute("aria-busy", "true");
     });
+
+    expect(
+      routeTimelineMutation(mutation, routingContext(timeline.contentRow)),
+    ).toBe(timeline.list);
+  });
+
+  it("ignores streamed command output inside an activity row", async () => {
+    const timeline = createTimeline();
+    const output = document.createElement("pre");
+    timeline.workRow.append(output);
+    const chunk = document.createElement("div");
+    for (let index = 0; index < 500; index += 1) {
+      chunk.append(document.createElement("span"));
+    }
+    const subtreeSearch = vi.spyOn(chunk, "querySelector");
+    const mutation = await recordMutation(() => output.append(chunk));
+
+    expect(
+      routeTimelineMutation(mutation, routingContext(timeline.contentRow)),
+    ).toBeNull();
+    expect(subtreeSearch).not.toHaveBeenCalled();
+  });
+
+  it("still routes an activity header inserted into a work row", async () => {
+    const timeline = createTimeline();
+    const nextHeader = document.createElement("button");
+    nextHeader.className = "timeline-row-header";
+    nextHeader.textContent = "Running 2 commands";
+    const mutation = await recordMutation(() =>
+      timeline.workRow.append(nextHeader),
+    );
 
     expect(
       routeTimelineMutation(mutation, routingContext(timeline.contentRow)),

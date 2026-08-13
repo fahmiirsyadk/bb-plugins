@@ -48,6 +48,25 @@
 
 .fluid-thinking-indicator__icon {
   flex: 0 0 auto;
+  transform-origin: center;
+  animation: fluid-thinking-icon-drift 2.8s ease-in-out infinite;
+}
+
+@keyframes fluid-thinking-icon-drift {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(0.94);
+  }
+
+  50% {
+    transform: rotate(8deg) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fluid-thinking-indicator__icon {
+    animation: none;
+  }
 }
 
 .fluid-thinking-indicator__word {

@@ -6,6 +6,8 @@ import {
 } from "./dom-bridge.js";
 
 const TIMELINE_ROW_SELECTOR = "[data-timeline-row-id]";
+const TIMELINE_ACTIVITY_SELECTOR =
+  `${FLUID_TIMELINE_HEADER_SELECTOR},${FLUID_ANIMATED_LABEL_SELECTOR}`;
 
 export type TimelineMutationRoute = HTMLElement | "full" | null;
 
@@ -24,6 +26,10 @@ function nodeMatchesOrContains(node: Node, selector: string): boolean {
   return node.matches(selector) || node.querySelector(selector) !== null;
 }
 
+function nodeMatches(node: Node, selector: string): boolean {
+  return node instanceof Element && node.matches(selector);
+}
+
 /** Route one DOM mutation without scanning known streamed content subtrees. */
 export function routeTimelineMutation(
   mutation: MutationRecord,
@@ -33,39 +39,60 @@ export function routeTimelineMutation(
   const target = elementForNode(mutation.target);
   const hostList = context.listForHostTarget(mutation.target);
   if (hostList !== null) return hostList;
-  const list =
-    target?.closest<HTMLElement>(FLUID_TIMELINE_LIST_SELECTOR) ?? null;
-  const row = target?.closest<HTMLElement>(TIMELINE_ROW_SELECTOR) ?? null;
-  const touchesContentRow =
-    list !== null &&
-    row?.parentElement === list &&
-    context.isContentRow(list, row);
 
   if (mutation.type === "characterData") {
-    if (touchesContentRow) return null;
-    return target?.closest(
-      `${FLUID_TIMELINE_HEADER_SELECTOR},${FLUID_ANIMATED_LABEL_SELECTOR}`,
-    ) !== null
-      ? list
-      : null;
+    const activity = target?.closest<HTMLElement>(TIMELINE_ACTIVITY_SELECTOR);
+    return activity?.closest<HTMLElement>(FLUID_TIMELINE_LIST_SELECTOR) ?? null;
   }
 
   if (mutation.type === "attributes") {
     if (target === null) return null;
-    if (target.matches(FLUID_TIMELINE_LIST_SELECTOR)) return list;
     if (
-      target.closest(
-        `${FLUID_TIMELINE_HEADER_SELECTOR},${FLUID_ANIMATED_LABEL_SELECTOR}`,
-      ) !== null
+      target instanceof HTMLElement &&
+      target.matches(FLUID_TIMELINE_LIST_SELECTOR)
     ) {
-      return list;
+      return target;
     }
-    return mutation.attributeName === "aria-busy" && row?.parentElement === list
+    const activity = target.closest<HTMLElement>(TIMELINE_ACTIVITY_SELECTOR);
+    if (activity !== null) {
+      return activity.closest<HTMLElement>(FLUID_TIMELINE_LIST_SELECTOR);
+    }
+    if (mutation.attributeName !== "aria-busy") return null;
+    const row = target.closest<HTMLElement>(TIMELINE_ROW_SELECTOR);
+    const list = row?.parentElement;
+    return list instanceof HTMLElement &&
+      list.matches(FLUID_TIMELINE_LIST_SELECTOR)
       ? list
       : null;
   }
 
-  if (list !== null) return touchesContentRow ? null : list;
+  const list =
+    target?.closest<HTMLElement>(FLUID_TIMELINE_LIST_SELECTOR) ?? null;
+  if (list !== null) {
+    if (target === list) return list;
+    const row = target?.closest<HTMLElement>(TIMELINE_ROW_SELECTOR) ?? null;
+    if (
+      row?.parentElement === list &&
+      context.isContentRow(list, row)
+    ) {
+      return null;
+    }
+    if (target?.closest(TIMELINE_ACTIVITY_SELECTOR) !== null) return list;
+
+    const changedNodes = [...mutation.addedNodes, ...mutation.removedNodes];
+    if (row?.parentElement === list && target === row) {
+      return changedNodes.some((node) =>
+        nodeMatchesOrContains(node, TIMELINE_ACTIVITY_SELECTOR),
+      )
+        ? list
+        : null;
+    }
+    return changedNodes.some((node) =>
+      nodeMatches(node, TIMELINE_ACTIVITY_SELECTOR),
+    )
+      ? list
+      : null;
+  }
   return [...mutation.addedNodes, ...mutation.removedNodes].some((node) =>
     nodeMatchesOrContains(node, FLUID_TIMELINE_SIGNAL_SELECTOR),
   )
