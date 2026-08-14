@@ -4,12 +4,12 @@
 
 
 Fluid Thinking replaces only BB's visible `Thinking...` / `Working...`
-indicator with the animated
+indicator with the morphing
 [ThinkingIndicator](https://www.fluidfunctionalism.com/docs/thinking-indicator).
 `Thinking` becomes `Thinking harder` after 10 seconds; `Working` transitions
 through `Moonwalking`, `Dreamwalking`, `Starwalking`, `Skywalking`,
 `Cloudwalking`, `Nightwalking`, `Wandering`, `Roaming`, `Drifting`, `Gliding`,
-`Cruising`, `Grooving`, `Orbiting`, `Waltzing`, and `Shuffling`. The animated
+`Cruising`, `Grooving`, `Orbiting`, `Waltzing`, and `Shuffling`. The morphing
 glyph also appears beside BB's active aggregate/current activity row.
 
 Compaction keeps BB's native clock/progress cue: the Fluid glyph is omitted
@@ -32,8 +32,8 @@ The bridge:
 - ignores streamed subtrees inside known content rows before inspecting their
   descendants, also ignores nested command-output mutations inside activity
   rows, and reconciles only genuine activity changes;
-- animates a static SVG glyph with a compositor-friendly CSS transform instead
-  of interpolating SVG path data on the main thread;
+- preserves the original five-stage circle/infinity SVG morph with a native
+  SVG animation instead of JavaScript path writes on every frame;
 - preserves its mounted roots while BB replaces its native indicator host; and
 - restores the original indicator completely on reload, disable, or removal.
 

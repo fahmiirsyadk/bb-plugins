@@ -7,8 +7,23 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
+const CIRCLE_A_PATH =
+  "M 12 8 C 14.21 8 16 9.79 16 12 C 16 14.21 14.21 16 12 16 C 9.79 16 8 14.21 8 12 C 8 9.79 9.79 8 12 8 Z";
+
 const INFINITY_PATH =
   "M 12 12 C 14 8.5 19 8.5 19 12 C 19 15.5 14 15.5 12 12 C 10 8.5 5 8.5 5 12 C 5 15.5 10 15.5 12 12 Z";
+
+const CIRCLE_B_PATH =
+  "M 12 16 C 14.21 16 16 14.21 16 12 C 16 9.79 14.21 8 12 8 C 9.79 8 8 9.79 8 12 C 8 14.21 9.79 16 12 16 Z";
+
+const MORPH_PATHS = [
+  CIRCLE_A_PATH,
+  INFINITY_PATH,
+  CIRCLE_B_PATH,
+  INFINITY_PATH,
+  CIRCLE_A_PATH,
+].join(";");
+const MORPH_KEY_SPLINES = Array(4).fill("0.42 0 0.58 1").join(";");
 
 const WORKING_WORDS = [
   "Working",
@@ -118,7 +133,19 @@ export const ThinkingIndicator = forwardRef<
             strokeLinejoin="round"
             className="fluid-thinking-indicator__icon"
           >
-            <path d={INFINITY_PATH} />
+            <path d={reduceMotion ? INFINITY_PATH : CIRCLE_A_PATH}>
+              {!reduceMotion ? (
+                <animate
+                  attributeName="d"
+                  values={MORPH_PATHS}
+                  keyTimes="0;0.25;0.5;0.75;1"
+                  calcMode="spline"
+                  keySplines={MORPH_KEY_SPLINES}
+                  dur="6s"
+                  repeatCount="indefinite"
+                />
+              ) : null}
+            </path>
           </svg>
         ) : null}
         <AnimatePresence mode="popLayout" initial={false}>
