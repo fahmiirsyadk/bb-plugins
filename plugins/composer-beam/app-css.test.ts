@@ -24,4 +24,10 @@ describe("composer beam styles", () => {
     expect(css).toContain("rgb(255, 50, 100)");
     expect(css).toContain("rgb(40, 180, 220)");
   });
+
+  it("does not clip host-owned typeahead menus", () => {
+    expect(css).toContain(".bb-composer-beam-form {\n  position: relative;");
+    expect(css).toContain("  overflow: visible;\n}");
+    expect(css).not.toContain("data-promptbox-typeahead-open");
+  });
 });

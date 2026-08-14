@@ -62,14 +62,12 @@
 .bb-composer-beam-form {
   position: relative;
   border-radius: var(--bb-composer-beam-radius);
-  overflow: hidden;
-}
-
-/* The upstream wrapper clips its children; the composer's menu is a child
- * intentionally positioned outside the form, so release only that case. */
-.bb-composer-beam-form[data-promptbox-typeahead-open] {
   overflow: visible;
 }
+
+/* Keep host-owned typeahead menus visible when they float above the form.
+ * The beam layers clip themselves with clip-path, so the form does not need
+ * to clip its children. */
 
 .bb-composer-beam-form[data-bb-composer-beam-active] {
   animation:
